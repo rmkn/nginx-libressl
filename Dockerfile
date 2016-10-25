@@ -18,13 +18,13 @@ RUN curl -o /usr/local/src/libressl.tar.gz -SL http://ftp.openbsd.org/pub/OpenBS
 RUN curl -o /usr/local/src/nginx.tar.gz -SL https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
 	&& tar zxf /usr/local/src/nginx.tar.gz -C /usr/local/src \
 	&& cd /usr/local/src/nginx-${NGINX_VERSION} \
-	&& ./configure --prefix=/opt/nginx --with-http_ssl_module --with-ld-opt="-lrt" --with-openssl=/usr/local/src/libressl-${LIBRESSL_VERSION} \
+	&& ./configure --prefix=/usr/local/nginx --with-http_ssl_module --with-ld-opt="-lrt" --with-openssl=/usr/local/src/libressl-${LIBRESSL_VERSION} \
 	&& make \
 	&& make install
 
-COPY nginx.conf /opt/nginx/conf/nginx.conf
-COPY virtual.conf /opt/nginx/conf/conf.d/virtual.conf
+COPY nginx.conf /usr/local/nginx/conf/nginx.conf
+COPY virtual.conf /usr/local/nginx/conf/conf.d/virtual.conf
 
 EXPOSE 80
 
-CMD ["/opt/nginx/sbin/nginx", "-g", "daemon off;"]
+CMD ["/usr/local/nginx/sbin/nginx", "-g", "daemon off;"]
